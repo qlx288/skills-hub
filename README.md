@@ -30,8 +30,9 @@
 # 1. 克隆仓库
 git clone https://github.com/你的用户名/skill-hub.git
 
-# 2. 复制你想要的 skill 到 OpenCode 配置目录
-cp -r skill-hub/skills/advisor-agent ~/.config/opencode/skills/
+# 2. 复制入口文件到 agents 目录，子 skill 到 skills 目录
+cp skill-hub/skills/advisor-agent/advisor-agent.md ~/.config/opencode/agents/
+cp -r skill-hub/skills/advisor-agent/ ~/.config/opencode/skills/
 
 # 3. 在 OpenCode 中直接使用
 # "帮我查一下复旦大学的杨珉教授"
@@ -107,8 +108,8 @@ skill-hub/
 ├── CONTRIBUTING.md            # 贡献指南
 ├── skills/
 │   ├── advisor-agent/         # 导师调查
-│   │   ├── advisor-agent.md   # 入口文件
-│   │   ├── SKILL.md           # 主调度
+│   │   ├── advisor-agent.md   # 入口文件（放到 ~/.config/opencode/agents/）
+│   │   ├── SKILL.md           # 主调度（放到 ~/.config/opencode/skills/advisor-agent/
 │   │   └── skills/            # 子 skill
 │   │       ├── scholar-search/
 │   │       ├── professor-profile/
