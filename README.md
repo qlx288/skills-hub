@@ -1,4 +1,4 @@
-<div align="center">
+ <div align="center">
 
 # 🧠 Skill Hub
 
@@ -105,12 +105,11 @@ Advisor Agent 帮你做一份完整的「导师尽职调查报告」：
 skill-hub/
 ├── README.md
 ├── CONTRIBUTING.md            # 贡献指南
+├── agents/
 ├── skills/
 │   ├── advisor-agent/         # 导师调查
 │   │   ├── advisor-agent.md   # 入口文件
 │   │   ├── SKILL.md           # 主调度
-│   │   ├── advisor-agent-lite.md    # 精简版入口
-│   │   ├── advisor-agent-single.md  # 单文件版（本地小模型）
 │   │   └── skills/            # 子 skill
 │   │       ├── scholar-search/
 │   │       ├── professor-profile/
