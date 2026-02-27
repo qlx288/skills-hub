@@ -1,6 +1,14 @@
 ---
-name: teamily-ai-core
-description: "多智能体协作核心能力包。支持创建人类与 AI 智能体共存的协作环境，包含：多智能体实时协作、跨群组持久记忆、任务分配与协作执行、RAG 知识检索、工作流自动化、技能市场、主动介入群聊、自我学习能力、企业微信接入、网页采集、GUI 自动化。使用 NVIDIA Llama/Claude/OpenAI 模型。"
+name: xiaoai
+description: "小爱 AI - 多智能体协作核心能力包。支持创建人类与 AI 智能体共存的协作环境，包含：多智能体实时协作、跨群组持久记忆、任务分配与协作执行、RAG 知识检索、工作流自动化、技能市场(ClawHub)、主动介入群聊、自我学习能力、企业微信接入、网页采集、GUI 自动化。使用 NVIDIA Llama/Claude/OpenAI 模型。"
+homepage: https://github.com/qlx288/skills-hub
+metadata:
+  clawdbot:
+    emoji: "🤖"
+    requires:
+      env: ["NVIDIA_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"]
+    primaryEnv: "NVIDIA_API_KEY"
+    files: ["scripts/*"]
 temperature: 0.7
 tools:
   skill: true
