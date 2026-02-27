@@ -1,12 +1,12 @@
 ---
 name: xiaoai
-description: "小爱 AI - 多智能体协作核心能力包。支持创建人类与 AI 智能体共存的协作环境，包含：多智能体实时协作、跨群组持久记忆、任务分配与协作执行、RAG 知识检索、工作流自动化、技能市场(ClawHub)、主动介入群聊、自我学习能力、企业微信接入、网页采集、GUI 自动化。使用 NVIDIA Llama/Claude/OpenAI 模型。"
+description: "小爱 AI - 多智能体协作核心能力包。支持创建人类与 AI 智能体共存的协作环境，包含：多智能体实时协作、跨群组持久记忆、任务分配与协作执行、RAG 知识检索、工作流自动化、技能市场(ClawHub+魔搭MCP)、主动介入群聊、自我学习能力、企业微信接入、网页采集、GUI 自动化。使用 NVIDIA Llama/Claude/OpenAI/魔搭模型。"
 homepage: https://github.com/qlx288/skills-hub
 metadata:
   clawdbot:
     emoji: "🤖"
     requires:
-      env: ["NVIDIA_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"]
+      env: ["NVIDIA_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "MODELSCOPE_API_KEY"]
     primaryEnv: "NVIDIA_API_KEY"
     files: ["scripts/*"]
 temperature: 0.7
@@ -112,13 +112,45 @@ from scripts.skill_market import SkillMarket
 
 market = SkillMarket()
 
-# 查看可用技能
-skills = market.list_skills()
-
 # 调用技能
 result = market.execute_skill(
     skill_name="web_scraper",
     params={"url": "https://example.com"}
+)
+```
+
+### 使用魔搭社区 MCP
+
+```python
+from scripts.skill_market import SkillMarket
+
+market = SkillMarket()
+
+# 列出所有 MCP 服务
+services = market.search_modelscope()
+for s in services:
+    print(f"{s['name']}: {s['description']}")
+
+# 搜索模型
+models = market.search_modelscope("llama")
+print(f"找到 {len(models)} 个模型")
+
+# 调用 MCP 服务
+result = market.call_modelscope_mcp(
+    mcp_id="modelscope_search",
+    params={"query": "Qwen"}
+)
+
+# 调用 MiniMax 语音合成
+result = market.call_modelscope_mcp(
+    mcp_id="minimax_tts",
+    params={
+        "api_key": "your_minimax_key",
+        "payload": {
+            "text": "你好，我是小爱",
+            "voice_id": "Chinese_Male_Bada"
+        }
+    }
 )
 ```
 

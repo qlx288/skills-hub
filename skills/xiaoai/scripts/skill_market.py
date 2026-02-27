@@ -1,10 +1,11 @@
 """
-Teamily AI Core - 技能市场
+小爱 AI - 技能市场
 智能技能执行系统
 
-支持两种技能来源：
-1. 内置技能 - Teamily AI Core 自带的技能
+支持三种技能来源：
+1. 内置技能 - 小爱自带的技能
 2. ClawHub 技能 - OpenClaw 官方技能市场 (3000+ 技能)
+3. 魔搭MCP - 阿里ModelScope MCP服务 (1500+ 服务)
 """
 
 import json
@@ -22,6 +23,13 @@ try:
     CLAWHUB_AVAILABLE = True
 except ImportError:
     CLAWHUB_AVAILABLE = False
+
+# 魔搭 MCP 客户端
+try:
+    from .modelscope_mcp import ModelScopeMCP
+    MODELSCOPE_AVAILABLE = True
+except ImportError:
+    MODELSCOPE_AVAILABLE = False
 
 
 class SkillCategory(Enum):
@@ -87,6 +95,7 @@ class SkillMarket:
     - 执行技能
     - 技能编排
     - ClawHub 集成 (3000+ 外部技能)
+    - 魔搭MCP 集成 (1500+ 服务)
     """
     
     def __init__(self):
@@ -102,8 +111,53 @@ class SkillMarket:
             except Exception as e:
                 print(f"ClawHub 初始化失败: {e}")
         
+        # 魔搭 MCP 集成
+        self.modelscope = None
+        if MODELSCOPE_AVAILABLE:
+            try:
+                self.modelscope = ModelScopeMCP()
+            except Exception as e:
+                print(f"魔搭MCP 初始化失败: {e}")
+        
         # 初始化内置技能
         self._register_builtin_skills()
+    
+    def search_modelscope(self, query: str = None, category: str = None) -> List[Dict]:
+        """
+        搜索魔搭 MCP 服务
+        
+        Args:
+            query: 搜索关键词
+            category: 可选，按分类筛选
+            
+        Returns:
+            MCP 服务列表
+        """
+        if not self.modelscope:
+            return []
+        
+        if query:
+            # 搜索模型
+            return self.modelscope.search_models(query).get("data", [])
+        else:
+            # 列出所有服务
+            return self.modelscope.list_services(category)
+    
+    def call_modelscope_mcp(self, mcp_id: str, params: Dict) -> Dict:
+        """
+        调用魔搭 MCP 服务
+        
+        Args:
+            mcp_id: MCP 服务 ID
+            params: 调用参数
+            
+        Returns:
+            调用结果
+        """
+        if not self.modelscope:
+            return {"error": "魔搭 MCP 不可用"}
+        
+        return self.modelscope.call_mcp(mcp_id, params)
     
     def search_clawhub(self, query: str, category: str = None) -> List[ClawHubSkill]:
         """
